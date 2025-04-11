@@ -7,8 +7,7 @@ int main() {
     printf("Enter the number of elements: ");
     scanf("%d", &n);
 
-    float arr[n]; // Variable-length array (C99 and above)
-
+    float arr[n]; 
     printf("Enter %d numbers:\n", n);
     for(i = 0; i < n; i++) {
         scanf("%f", &arr[i]);
