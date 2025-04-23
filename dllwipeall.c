@@ -3,68 +3,51 @@
 
 struct Node {
     int data;
-    struct Node* prev;
     struct Node* next;
 };
 
 struct Node* createNode(int data) {
     struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
     newNode->data = data;
-    newNode->prev = NULL;
     newNode->next = NULL;
     return newNode;
 }
 
-void displayList(struct Node* head) {
+void printList(struct Node* head) {
     struct Node* temp = head;
-    printf("Doubly Linked List: ");
     while (temp != NULL) {
-        printf("%d <-> ", temp->data);
+        printf("%d -> ", temp->data);
         temp = temp->next;
     }
     printf("NULL\n");
 }
 
-struct Node* deleteEntireList(struct Node* head) {
-    struct Node* temp;
+void deleteList(struct Node** head_ref) {
+    struct Node* ptr = *head_ref;
+    struct Node* next;
 
-    while (head != NULL) {
-        temp = head;
-        head = head->next;
-        free(temp);
+    while (ptr != NULL) {
+        next = ptr->next;
+        free(ptr);
+        ptr = next;
     }
 
-    return NULL;
+    *head_ref = NULL;
 }
 
 int main() {
-    struct Node* head = NULL;
-    struct Node* tail = NULL;
-    int n, value;
+    struct Node* head = createNode(1);
+    head->next = createNode(2);
+    head->next->next = createNode(3);
 
-    printf("How many nodes do you want to create? ");
-    scanf("%d", &n);
+    printf("Original List:\n");
+    printList(head);
 
-    for (int i = 0; i < n; i++) {
-        printf("Enter data for node %d: ", i + 1);
-        scanf("%d", &value);
-        struct Node* newNode = createNode(value);
-        if (head == NULL) {
-            head = newNode;
-            tail = newNode;
-        } else {
-            tail->next = newNode;
-            newNode->prev = tail;
-            tail = newNode;
-        }
+    deleteList(&head);
+
+    if (head == NULL) {
+        printf("List deleted successfully.\n");
     }
-
-    displayList(head);
-
-    head = deleteEntireList(head);
-
-    printf("List after deleting all nodes:\n");
-    displayList(head);
 
     return 0;
 }
