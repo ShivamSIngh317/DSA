@@ -15,16 +15,6 @@ struct Node* createNode(int data) {
     return newNode;
 }
 
-void displayList(struct Node* head) {
-    struct Node* temp = head;
-    printf("Doubly Linked List: ");
-    while (temp != NULL) {
-        printf("%d <-> ", temp->data);
-        temp = temp->next;
-    }
-    printf("NULL\n");
-}
-
 struct Node* insertAtEnd(struct Node* head, int data) {
     struct Node* newNode = createNode(data);
 
@@ -32,38 +22,41 @@ struct Node* insertAtEnd(struct Node* head, int data) {
         return newNode;
     }
 
-    struct Node* temp = head;
-    while (temp->next != NULL) {
-        temp = temp->next;
+    struct Node* ptr = head;
+    while (ptr->next != NULL) {
+        ptr = ptr->next;
     }
 
-    temp->next = newNode;
-    newNode->prev = temp;
+    ptr->next = newNode;
+    newNode->prev = ptr;
 
     return head;
 }
 
+void printList(struct Node* head) {
+    struct Node* ptr = head;
+    while (ptr != NULL) {
+        printf("%d <-> ", ptr->data);
+        ptr = ptr->next;
+    }
+    printf("NULL\n");
+}
+
 int main() {
     struct Node* head = NULL;
-    struct Node* tail = NULL;
     int n, value;
 
-    printf("How many nodes do you want to create? ");
+    printf("Enter the number of nodes to insert: ");
     scanf("%d", &n);
 
     for (int i = 0; i < n; i++) {
-        printf("Enter data for node %d: ", i + 1);
+        printf("Enter value for node %d: ", i + 1);
         scanf("%d", &value);
         head = insertAtEnd(head, value);
     }
 
-    displayList(head);
-
-    printf("Enter data to insert at the end: ");
-    scanf("%d", &value);
-    head = insertAtEnd(head, value);
-
-    displayList(head);
+    printf("Doubly Linked List:\n");
+    printList(head);
 
     return 0;
 }
